@@ -4,12 +4,15 @@
  */
 package View;
 
+import Controller.UserController;
+import javax.swing.*;
+
 /**
  *
  * @author pappu
  */
 public class Register extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Register.class.getName());
 
     /**
@@ -17,6 +20,65 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() {
         initComponents();
+        setLocationRelativeTo(null);
+    }
+
+    private void handleRegister() {
+        String email = txtEmail.getText().trim();
+        String name = txtName.getText().trim();
+        String phone = txtPhone.getText().trim();
+        String password = new String(fieldPassword.getPassword());
+        String confirmPassword = new String(fieldConfPassword.getPassword());
+
+        // Validation
+        if (email.isEmpty() || name.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please fill in all required fields!",
+                    "Validation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this,
+                    "Passwords do not match!",
+                    "Validation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (password.length() < 6) {
+            JOptionPane.showMessageDialog(this,
+                    "Password must be at least 6 characters!",
+                    "Validation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String gender = "";
+        if (btnMale.isSelected()) {
+            gender = "Male";
+        } else if (btnFemale.isSelected()) {
+            gender = "Female";
+        }
+
+        UserController userController = LoginForm.getUserController();
+
+        if (userController.registerUser(email, name, phone, gender, password)) {
+            JOptionPane.showMessageDialog(this,
+                    "Registration successful! Please login.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Email already exists or invalid email format!",
+                    "Registration Failed",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -128,6 +190,11 @@ public class Register extends javax.swing.JFrame {
         btnLogin.setText("Register");
         btnLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(120, 220, 255), 2));
         btnLogin.setFocusPainted(false);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 500, 370, 50));
 
         btnAlreadyAcc.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
@@ -135,9 +202,14 @@ public class Register extends javax.swing.JFrame {
         btnAlreadyAcc.setText("Already have an account? Log In");
         btnAlreadyAcc.setBorderPainted(false);
         btnAlreadyAcc.setContentAreaFilled(false);
+        btnAlreadyAcc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlreadyAccActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnAlreadyAcc, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 560, 370, 50));
 
-        lblBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/right side image.png"))); // NOI18N
+        lblBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/ChatGPT Image Jan 5, 2026, 08_08_07 PM.png"))); // NOI18N
         jPanel1.add(lblBg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 830, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -155,6 +227,17 @@ public class Register extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAlreadyAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlreadyAccActionPerformed
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        this.setVisible(false);// TODO add your handling code here:
+    }//GEN-LAST:event_btnAlreadyAccActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        handleRegister();
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments

@@ -4,19 +4,58 @@
  */
 package View;
 
+import Controller.UserController;
+import javax.swing.*;
+
 /**
  *
  * @author pappu
  */
 public class LoginForm extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginForm.class.getName());
+    private static UserController userController = new UserController();
 
     /**
      * Creates new form LoginForm
      */
     public LoginForm() {
         initComponents();
+        setLocationRelativeTo(null);
+    }
+
+    private void handleLogin() {
+        String email = txtEmail.getText().trim();
+        String password = new String(fieldPassword.getPassword());
+
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please enter both email and password!",
+                    "Validation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (userController.loginUser(email, password)) {
+            JOptionPane.showMessageDialog(this,
+                    "Login successful! Welcome " + userController.getCurrentUser().getName(),
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Invalid email or password!",
+                    "Login Failed",
+                    JOptionPane.ERROR_MESSAGE);
+            fieldPassword.setText("");
+        }
+    }
+
+    public static UserController getUserController() {
+        return userController;
     }
 
     /**
@@ -30,7 +69,6 @@ public class LoginForm extends javax.swing.JFrame {
 
         backgPanel = new javax.swing.JPanel();
         lftPanel = new javax.swing.JPanel();
-        btnLogin = new javax.swing.JButton();
         btnRegister = new javax.swing.JButton();
         lblWlcm = new javax.swing.JLabel();
         lblIcon = new javax.swing.JLabel();
@@ -54,26 +92,6 @@ public class LoginForm extends javax.swing.JFrame {
         lftPanel.setBackground(new java.awt.Color(10, 20, 40));
         lftPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnLogin.setBackground(new java.awt.Color(20, 35, 60));
-        btnLogin.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
-        btnLogin.setForeground(new java.awt.Color(102, 204, 255));
-        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/login.png"))); // NOI18N
-        btnLogin.setText("Log In");
-        btnLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(100, 200, 255), 2));
-        btnLogin.setContentAreaFilled(false);
-        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnLogin.setFocusPainted(false);
-        btnLogin.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnLogin.setIconTextGap(15);
-        btnLogin.setOpaque(true);
-        btnLogin.setPreferredSize(new java.awt.Dimension(80, 240));
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
-            }
-        });
-        lftPanel.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 180, 40));
-
         btnRegister.setBackground(new java.awt.Color(20, 35, 60));
         btnRegister.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
         btnRegister.setForeground(new java.awt.Color(0, 204, 255));
@@ -90,7 +108,7 @@ public class LoginForm extends javax.swing.JFrame {
                 btnRegisterActionPerformed(evt);
             }
         });
-        lftPanel.add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 180, 40));
+        lftPanel.add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 180, 40));
 
         lblWlcm.setFont(new java.awt.Font("Serif", 1, 28)); // NOI18N
         lblWlcm.setForeground(new java.awt.Color(170, 230, 255));
@@ -98,7 +116,7 @@ public class LoginForm extends javax.swing.JFrame {
         lblWlcm.setText("WELCOME");
         lftPanel.add(lblWlcm, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 180, 31));
 
-        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/right side image.png"))); // NOI18N
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/ChatGPT Image Jan 5, 2026, 08_08_07 PM.png"))); // NOI18N
         lftPanel.add(lblIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 560));
 
         rightPanel.setBackground(new java.awt.Color(10, 20, 40));
@@ -172,8 +190,8 @@ public class LoginForm extends javax.swing.JFrame {
         checkBox.setFocusPainted(false);
         rightPanel.add(checkBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 265, -1, -1));
 
-        iconRight.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/right side image.png"))); // NOI18N
-        rightPanel.add(iconRight, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 560));
+        iconRight.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/ChatGPT Image Jan 5, 2026, 08_08_07 PM.png"))); // NOI18N
+        rightPanel.add(iconRight, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 560));
 
         javax.swing.GroupLayout backgPanelLayout = new javax.swing.GroupLayout(backgPanel);
         backgPanel.setLayout(backgPanelLayout);
@@ -196,10 +214,6 @@ public class LoginForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLoginActionPerformed
-
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
@@ -217,9 +231,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         // TODO add your handling code here:
-        MainFrame mFrame = new MainFrame();
-        mFrame.setVisible(true);
-        this.setVisible(false);
+        handleLogin();
     }//GEN-LAST:event_loginBtnActionPerformed
 
     /**
@@ -249,7 +261,6 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backgPanel;
-    private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnNoAcc;
     private javax.swing.JButton btnRegister;
     private javax.swing.JCheckBox checkBox;
