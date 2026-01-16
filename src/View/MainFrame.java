@@ -441,7 +441,6 @@ public class MainFrame extends javax.swing.JFrame {
         txtSummary.setBackground(new java.awt.Color(255, 255, 255));
         txtSummary.setColumns(20);
         txtSummary.setFont(new java.awt.Font("Serif", 0, 16)); // NOI18N
-        txtSummary.setForeground(new java.awt.Color(220, 240, 255));
         txtSummary.setLineWrap(true);
         txtSummary.setRows(5);
         txtSummary.setWrapStyleWord(true);

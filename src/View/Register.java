@@ -139,7 +139,6 @@ public class Register extends javax.swing.JFrame {
         jPanel1.add(lblPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 260, 233, 35));
 
         txtName.setFont(new java.awt.Font("Serif", 0, 16)); // NOI18N
-        txtName.setForeground(new java.awt.Color(255, 255, 255));
         txtName.setText(" ");
         txtName.setVerifyInputWhenFocusTarget(false);
         jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 210, 37));
